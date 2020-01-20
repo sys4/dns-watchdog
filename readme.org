@@ -1,0 +1,16 @@
+#+Title: A Simple DNS-Resolver watchdog
+#+Author: Carsten Strotmann
+#+Date: <2020-01-09 Thu>
+
+* A DNS-Server process watchdog
+
+This project implements a simple DNS server process watchdog. It sends
+DNS queries to a local DNS server projects and writes the results to
+syslog.
+
+If the queries are failing, it will terminate with an error code. A
+script can then pickup the error code and take an appropriate action
+(like restarting the DNS server process).
+
+This projects is currently /work in progress/, additional
+documentation will be available soon.
