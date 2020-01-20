@@ -1,6 +1,6 @@
-// Copyright 2020 Carsten Strotmann. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
+// Copyright 2020 Carsten Strotmann (sys4 AG). All rights reserved.
+// Use of this source code is governed by a BSD-style license that can
+// be found in the LICENSE file.
 
 // A simple watchdog for a DNS resolver
 // Based on chaos.go by Miek Gieben (see github.com/miekg/exdns)
