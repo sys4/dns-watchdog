@@ -1,6 +1,6 @@
 #+Title: A Simple DNS-Resolver watchdog
 #+Author: Carsten Strotmann
-#+Date: <2020-01-09 Thu>
+#+Date: <2020-01-20 Mon>
 
 * A DNS-Server process watchdog
 
@@ -11,6 +11,47 @@ syslog.
 If the queries are failing, it will terminate with an error code. A
 script can then pickup the error code and take an appropriate action
 (like restarting the DNS server process).
+
+This watchdog has been created because we've seen BIND 9 processes
+getting stuck (not answering any queries, but not terminating) on
+(very busy) Ubuntu 18.04 systems.
+
+** Example use with systemd
+
+The project comes with an example systemd unit file for the watchdog.
+The watchdog process will query the DNS server/DNS resolver for
+"hostname.bind CH TXT". If three (default) queries fail in a row, the
+watchdog will exit with error code 128. The Systemd =ExecStartPost=
+process will be executed, in this example it will kill a stuck DNS
+server process.
+
+#+begin_example
+[Unit]
+Description=DNS Service Watchdog
+Documentation=https://github.com/sys4/dns-watchdog
+
+[Service]
+Type=simple
+ExecStart=/usr/local/sbin/dns-watchdog
+ExecStartPost=/usr/bin/pkill -9 unbound
+Restart=always
+
+PrivateDevices=true
+ProtectControlGroups=true
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectSystem=full
+RestrictSUIDSGID=true
+
+[Install]
+WantedBy=multi-user.target
+#+end_example
+
+The DNS server process should be managed by a supervisor (such as
+Systemd, or supervised or runit) and will be restarted from the
+supervisor process.
+
+* Work in progress
 
 This projects is currently /work in progress/, additional
 documentation will be available soon.
