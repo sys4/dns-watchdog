@@ -33,7 +33,7 @@ Documentation=https://github.com/sys4/dns-watchdog
 [Service]
 Type=simple
 ExecStart=/usr/local/sbin/dns-watchdog
-ExecStartPost=/usr/bin/pkill -9 unbound
+ExecStartPost=/usr/bin/pkill -9 named
 Restart=always
 
 PrivateDevices=true
